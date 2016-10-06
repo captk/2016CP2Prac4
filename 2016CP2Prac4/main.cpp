@@ -24,13 +24,18 @@ using namespace std;
 int main(int argc, char** argv) {
 
     enum {
-        total, unique
+        total, unique, alphabetical
     } mode = total;
     for (int c; (c = getopt(argc, argv, "itu")) != -1;) {
         switch (c) {
             case 't': mode = total;
+                cout << "total mode" << endl;
                 break;
             case 'u': mode = unique;
+                cout << "unique mode" << endl;
+                break;
+            case 'i': mode = alphabetical;
+                cout << "alphabetical mode" << endl;
                 break;
         }
     }
@@ -38,19 +43,19 @@ int main(int argc, char** argv) {
     argv += optind;
     std::string word;
     bool found = false;
-    
+
     Vector<std::string> stringVector;
-    
-    
+
+
     int count = 0;
     while (cin >> word) {
-        for(int i = 0; i < stringVector.size(); i++){
-            if (stringVector[i] == word){
+        for (int i = 0; i < stringVector.size(); i++) {
+            if (stringVector[i] == word) {
                 found = true;
             }
         }
-        if(!found){
-            stringVector.push_back(word);
+        if (!found) {
+            stringVector.insert(stringVector.end(), word);
         }
         count += 1;
         found = false;

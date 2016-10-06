@@ -16,19 +16,26 @@
 
 template <class T>
 class Vector {
+
+    struct WordInfo {
+        T text;
+        int count;
+    };
+
 public:
-    typedef T iterator;
+    typedef WordInfo* iterator;
 
     Vector() {
         used = 0;
+        items = new WordInfo[1000];
     }
 
     iterator begin() {
-        return items[0];
+        return items;
     }
 
     iterator end() {
-        return items[used];
+        return items + used;
     }
 
     int size() {
@@ -36,19 +43,26 @@ public:
     }
 
     iterator insert(iterator position, const T& item) {
-        return 0;
-    }
-    
-    void push_back(const T& item){
-        items[used] = item;
+        WordInfo newText;
+        newText.count = 1;
+        newText.text = item;
+        
+        WordInfo oldText = *(position);
+        for(iterator i = position; i <= items + used; i++){
+            *(position) = newText;
+            newText = oldText;
+            oldText = *(i + 1);
+        }
+        
         used++;
+        return position;
     }
-    
-    T operator [](int i){
-        return items[i];
+
+    T operator[](int i) {
+        return items[i].text;
     }
 private:
-    T items[1000];
+    WordInfo* items;
     int used;
 };
 
