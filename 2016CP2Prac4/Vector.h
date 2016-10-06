@@ -48,7 +48,7 @@ public:
 
     iterator insert(iterator position, const T& item) {
         //When we run out of space, allocate 5x more:
-        //cout << "wtf";
+        cout << used << " " << memSize << endl;
         //cout << "memSize: " << memSize << endl;
         if(used == memSize){
             int newSize = memSize*5;

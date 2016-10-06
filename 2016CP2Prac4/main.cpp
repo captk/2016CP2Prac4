@@ -25,17 +25,17 @@ int main(int argc, char** argv) {
 
     enum {
         total, unique, alphabetical
-    } mode = alphabetical;
+    } mode = total;
     for (int c; (c = getopt(argc, argv, "itu")) != -1;) {
         switch (c) {
             case 't': mode = total;
-                cout << "total mode" << endl;
+                //cout << "total mode" << endl;
                 break;
             case 'u': mode = unique;
-                cout << "unique mode" << endl;
+                //cout << "unique mode" << endl;
                 break;
             case 'i': mode = alphabetical;
-                cout << "alphabetical mode" << endl;
+                //cout << "alphabetical mode" << endl;
                 break;
         }
     }
