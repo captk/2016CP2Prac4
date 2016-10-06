@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 
     enum {
         total, unique, alphabetical
-    } mode = total;
+    } mode = alphabetical;
     for (int c; (c = getopt(argc, argv, "itu")) != -1;) {
         switch (c) {
             case 't': mode = total;
@@ -51,11 +51,20 @@ int main(int argc, char** argv) {
     while (cin >> word) {
         for (int i = 0; i < stringVector.size(); i++) {
             if (stringVector[i] == word) {
+                //cout << "found a match" << endl;
+                stringVector.increment(i);
                 found = true;
             }
         }
         if (!found) {
-            stringVector.insert(stringVector.end(), word);
+            bool added = false;
+            for (int i = 0; i < stringVector.size(); i++) {
+                if (word < stringVector[i] && !added) {
+                    stringVector.insert(stringVector.begin() + i, word);
+                    added = true;
+                }
+            }
+            if(!added) stringVector.insert(stringVector.end(), word);
         }
         count += 1;
         found = false;
@@ -65,7 +74,17 @@ int main(int argc, char** argv) {
             break;
         case unique: cout << "Unique: " << stringVector.size() << endl;
             break;
+        case alphabetical:
+            for(int i = 0; i < stringVector.size(); i++){
+                cout << stringVector[i] << ": " << stringVector.getCount(i) << endl;
+            }
     }
+    /*cout << stringVector[11] << endl;
+    for(int i = 0; i < stringVector.size(); i++){
+        cout << stringVector[i] << endl;
+    }
+    */
+    //cout << ("a" == "a") << endl;
     return 0;
 }
 
