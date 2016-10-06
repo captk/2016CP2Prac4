@@ -14,7 +14,6 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <iostream>
 using namespace std;
 
 template <class T>
@@ -47,21 +46,7 @@ public:
     }
 
     iterator insert(iterator position, const T& item) {
-        //When we run out of space, allocate 5x more:
-        cout << used << " " << memSize << endl;
-        //cout << "memSize: " << memSize << endl;
-        if(used == memSize){
-            int newSize = memSize*5;
-            WordInfo* newStorage = new WordInfo[newSize];
-            for(int i = 0; i < memSize; i++){
-                newStorage[i] = items[i];
-                delete &items[i];
-            }
-            delete items;
-            items = newStorage;
-            memSize = newSize;
-        }
-        
+
         //cout << "******item: " << item << " pos: " << (position - items) << " ";
         //cout << "pbi: " << position->text << endl;
         WordInfo newText;
@@ -78,17 +63,34 @@ public:
 
         //cout << "post: " << position->text << endl;
         used++;
+        
+        //When we run out of space, allocate 5x more:
+        //cout << used << " " << memSize << endl;
+        if (used == memSize - 1) {
+            //cout << "changing memSize" << endl;
+            int newSize = memSize * 5;
+            WordInfo* newStorage = new WordInfo[newSize];
+            for (int i = 0; i < memSize; i++) {
+                newStorage[i] = items[i];
+            }
+            delete[] items;
+            items = newStorage;
+            memSize = newSize;
+            //cout << "new memSize: " << memSize << endl;
+        }
+        
         return position;
     }
 
     T operator[](int i) {
         return items[i].text;
     }
-    
-    void increment(int i){
+
+    void increment(int i) {
         items[i].count++;
     }
-    int getCount(int i){
+
+    int getCount(int i) {
         return items[i].count;
     }
 private:
