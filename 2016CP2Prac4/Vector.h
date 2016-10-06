@@ -55,7 +55,7 @@ public:
             WordInfo* newStorage = new WordInfo[newSize];
             for(int i = 0; i < memSize; i++){
                 newStorage[i] = items[i];
-                delete items[i];
+                delete *items[i];
             }
             delete items;
             items = newStorage;
