@@ -30,7 +30,8 @@ public:
 
     Vector() {
         used = 0;
-        items = new WordInfo[1000];
+        memSize = 1000;
+        items = new WordInfo[memSize];
     }
 
     iterator begin() {
@@ -46,6 +47,21 @@ public:
     }
 
     iterator insert(iterator position, const T& item) {
+        //When we run out of space, allocate 5x more:
+        //cout << "wtf";
+        //cout << "memSize: " << memSize << endl;
+        if(used == memSize){
+            int newSize = memSize*5;
+            WordInfo* newStorage = new WordInfo[newSize];
+            for(int i = 0; i < memSize; i++){
+                newStorage[i] = items[i];
+                delete items[i];
+            }
+            delete items;
+            items = newStorage;
+            memSize = newSize;
+        }
+        
         //cout << "******item: " << item << " pos: " << (position - items) << " ";
         //cout << "pbi: " << position->text << endl;
         WordInfo newText;
@@ -78,6 +94,7 @@ public:
 private:
     WordInfo* items;
     int used;
+    int memSize;
 };
 
 #endif /* VECTOR_H */
